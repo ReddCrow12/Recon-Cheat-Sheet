@@ -53,7 +53,7 @@
 ## רשימת בדיקות
 
 ### ✅ בדיקות בסיסיות
-- [ ] סריקת תתי-דומיינים
+ סריקת תתי-דומיינים
   - כלי: **Subfinder**
   ```bash
   subfinder -d target.com -o subdomains.txt
@@ -63,7 +63,7 @@
   amass enum -passive -d target.com -o subdomains.txt
   ```
 
-- [ ] סריקת פורטים
+ סריקת פורטים
   - כלי: **Nmap**
   ```bash
   nmap -sV -sC -p- target.com
@@ -73,7 +73,7 @@
   masscan target.com -p1-65535 --rate=1000
   ```
 
-- [ ] בדיקת SSL/TLS
+ בדיקת SSL/TLS
   - כלי: **Nmap**
   ```bash
   nmap -sV --script ssl-enum-ciphers -p 443 target.com
@@ -83,14 +83,14 @@
   testssl.sh target.com
   ```
 
-- [ ] איתור טכנולוגיות
+   איתור טכנולוגיות
   - כלי: **Wappalyzer** (הרחבת דפדפן)
   - כלי: **WhatWeb**
   ```bash
   whatweb -a 3 target.com
   ```
 
-- [ ] בדיקת headers
+ בדיקת headers
   - כלי: **Curl**
   ```bash
   curl -I -L target.com
@@ -100,7 +100,7 @@
   nmap --script http-headers target.com
   ```
 
-- [ ] בדיקת cookies
+ בדיקת cookies
   - כלי: **Curl**
   ```bash
   curl -I -L -v target.com | grep -i "set-cookie"

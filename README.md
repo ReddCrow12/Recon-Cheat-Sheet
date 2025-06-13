@@ -54,13 +54,75 @@
 
 ### ✅ בדיקות בסיסיות
 - [ ] סריקת תתי-דומיינים
+  - כלי: **Subfinder**
+  ```bash
+  subfinder -d target.com -o subdomains.txt
+  ```
+  - כלי: **Amass**
+  ```bash
+  amass enum -passive -d target.com -o subdomains.txt
+  ```
+
 - [ ] סריקת פורטים
+  - כלי: **Nmap**
+  ```bash
+  nmap -sV -sC -p- target.com
+  ```
+  - כלי: **Masscan**
+  ```bash
+  masscan target.com -p1-65535 --rate=1000
+  ```
+
 - [ ] בדיקת SSL/TLS
+  - כלי: **Nmap**
+  ```bash
+  nmap -sV --script ssl-enum-ciphers -p 443 target.com
+  ```
+  - כלי: **TestSSL**
+  ```bash
+  testssl.sh target.com
+  ```
+
 - [ ] איתור טכנולוגיות
+  - כלי: **Wappalyzer** (הרחבת דפדפן)
+  - כלי: **WhatWeb**
+  ```bash
+  whatweb -a 3 target.com
+  ```
+
 - [ ] בדיקת headers
+  - כלי: **Curl**
+  ```bash
+  curl -I -L target.com
+  ```
+  - כלי: **Nmap**
+  ```bash
+  nmap --script http-headers target.com
+  ```
+
 - [ ] בדיקת cookies
+  - כלי: **Curl**
+  ```bash
+  curl -I -L -v target.com | grep -i "set-cookie"
+  ```
+  - כלי: **Burp Suite** (בדיקה ידנית)
+
 - [ ] בדיקת CORS
+  - כלי: **Corsy**
+  ```bash
+  python3 corsy.py -u https://target.com
+  ```
+  - כלי: **Nmap**
+  ```bash
+  nmap --script http-cors target.com
+  ```
+
 - [ ] בדיקת CSP
+  - כלי: **Curl**
+  ```bash
+  curl -I -L target.com | grep -i "content-security-policy"
+  ```
+  - כלי: **CSP Evaluator** (כלי מקוון)
 
 ### ✅ בדיקות מתקדמות
 - [ ] בדיקות XSS
@@ -308,4 +370,94 @@ waybackurls target.com | grep "="
 מדריך זה נועד למטרות לימוד ומחקר בלבד. השימוש בכלים ובטכניקות המתוארות במדריך זה חייב להיות בהתאם לחוק ולאתיקה המקצועית. האחריות על השימוש בכלים ובטכניקות המתוארות במדריך זה היא על המשתמש בלבד.
 
 ---
-*עדכון אחרון: 2024* 
+*עדכון אחרון: 2024*
+
+### Nmap - דגלים ספציפיים לאתרים
+```bash
+# סריקת HTTP/HTTPS
+nmap -p80,443,8080,8443 -sV --script http-* target.com
+
+# בדיקת SSL/TLS
+nmap -p443 --script ssl-* target.com
+
+# בדיקת headers
+nmap --script http-headers target.com
+
+# בדיקת CORS
+nmap --script http-cors target.com
+
+# בדיקת WAF
+nmap --script http-waf-detect target.com
+
+# בדיקת robots.txt
+nmap --script http-robots.txt target.com
+
+# בדיקת שרתים
+nmap --script http-server-header target.com
+
+# בדיקת תיקיות
+nmap --script http-enum target.com
+
+# בדיקת SSL/TLS מפורטת
+nmap -p443 --script ssl-cert,ssl-enum-ciphers,ssl-heartbleed target.com
+
+# בדיקת HTTP Methods
+nmap --script http-methods target.com
+
+# בדיקת HTTP Auth
+nmap --script http-auth target.com
+
+# בדיקת HTTP Title
+nmap --script http-title target.com
+```
+
+### Shodan - חיפוש IPs ואתרים
+```bash
+# התקנת Shodan CLI
+pip install shodan
+
+# הגדרת API Key
+shodan init YOUR_API_KEY
+
+# חיפוש לפי דומיין
+shodan domain target.com
+
+# חיפוש לפי IP
+shodan host IP_ADDRESS
+
+# חיפוש לפי טכנולוגיה
+shodan search "http.title:'target.com'"
+
+# חיפוש לפי שירות
+shodan search "ssl:target.com"
+
+# חיפוש לפי פורט
+shodan search "port:443 ssl:target.com"
+
+# חיפוש לפי מערכת הפעלה
+shodan search "os:'Windows' hostname:target.com"
+
+# חיפוש לפי שרת
+shodan search "server:'nginx' hostname:target.com"
+
+# חיפוש לפי גרסת שרת
+shodan search "server:'nginx 1.18.0' hostname:target.com"
+
+# חיפוש לפי SSL/TLS
+shodan search "ssl.cert.subject.CN:target.com"
+
+# חיפוש לפי ASN
+shodan search "asn:AS12345"
+
+# חיפוש לפי מיקום גיאוגרפי
+shodan search "country:IL hostname:target.com"
+
+# חיפוש לפי ארגון
+shodan search "org:'Target Organization'"
+
+# שמירת תוצאות לקובץ
+shodan search "hostname:target.com" --fields ip_str,port,hostnames,org > results.txt
+
+# חיפוש מתקדם עם פילטרים
+shodan search "hostname:target.com port:443,80,8080,8443 ssl:true"
+``` 
